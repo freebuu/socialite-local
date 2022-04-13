@@ -1,6 +1,6 @@
 {
-  "name": "kirbykot/socialite-local-driver",
-  "description": "Socialite driver for local development",
+  "name": "kirbykot/socialite-local",
+  "description": "Socialite provider for local development",
   "keywords": [
     "laravel",
     "laravel socialite",
