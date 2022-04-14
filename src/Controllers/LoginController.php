@@ -4,6 +4,8 @@ namespace Kirbykot\LocalSocialite\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Kirbykot\LocalSocialite\SubjectRepository;
 
@@ -11,28 +13,34 @@ class LoginController
 {
     public function show(Request $request)
     {
-        //TODO некрасиво
-        return View::make('local_socialite::login', [
-            'client_id' => $request->get('client_id'),
-            'redirect_uri' => $request->get('redirect_uri'),
-            'scope' => $request->get('scope'),
-            'response_type' => $request->get('response_type'),
-            'state' => $request->get('response_type'),
-            'original_driver' => $request->get('original_driver')
+        $validator = Validator::make($request->query(), [
+            'client_id' => 'required | string',
+            'redirect_uri' => 'required | url',
+            'scope' => 'required | nullable |string',
+            'response_type' => 'required | string',
+            'state' => 'nullable | string',
+            'original_driver' => 'nullable | string'
         ]);
+        //TODO error page
+        if($validator->failed()){
+            return Response::json($validator->errors());
+        }
+        return View::make('local_socialite::login', $validator->validated());
     }
 
     public function login(Request $request, SubjectRepository $repository)
     {
-        //TODO вынести в сервис
-        $key = $repository->save([
-            'email' => $email = $request->input('email'),
-            'sub' => $request->input('sub') ?? md5($email),
-            'name' => $request->input('name') ?? mb_substr($email, 0, strpos($email, '@')) . '__name',
-            'scope' => $request->input('scope'),
-        ]);
+        //TODO error page
+        $data = Validator::make($request->input(), [
+            'email' => 'required | email',
+            'sub' => 'nullable | string',
+            'name' => 'nullable | string',
+            'scope' => 'nullable | string',
+            'redirect_uri' => 'required | url'
+        ])->validate();
+
         $query = http_build_query([
-            'code' => $key,
+            'code' => $repository->create($data),
         ]);
         return Redirect::to($request->input('redirect_uri').'/?'.$query);
     }

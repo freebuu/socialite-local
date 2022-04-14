@@ -2,47 +2,24 @@
 
 namespace Kirbykot\LocalSocialite\Socialite;
 
-use Illuminate\Contracts\Container\Container;
-use Laravel\Socialite\Contracts\Factory;
-use ReflectionClass;
+use Kirbykot\LocalSocialite\Interceptor;
+use Laravel\Socialite\SocialiteManager;
 
-class LocalSocialiteManager implements Factory
+class LocalSocialiteManager extends SocialiteManager
 {
-    private Container $container;
-    private Factory $originalFactory;
-    private bool $enabled;
-
-    public function __construct(Container $container, Factory $originalFactory, bool $enabled)
-    {
-        $this->container = $container;
-        $this->originalFactory = $originalFactory;
-        $this->enabled = $enabled;
-    }
+    private ?Interceptor $interceptor;
 
     public function driver($driver = null)
     {
-        $originalDriver = $this->originalFactory->driver($driver);
-        if(! $this->enabled){
-            return $originalDriver;
-        }
-        $reflection = new ReflectionClass($originalDriver);
-        $properties = [];
-        foreach ($reflection->getProperties() as $property){
-            $property->setAccessible(true);
-            $properties[$property->getName()] = $property->getValue($originalDriver);
-        }
-        return (new LocalProvider(
-            $this->container->make('request'),
-            $properties['clientId'],
-            $properties['clientSecret'],
-            $properties['redirectUrl'],
-            $properties['guzzle']
-        ))
-            ->with($properties['parameters'])
-            ->scopes($properties['scopes'])
-            ->originalDriver($driver)
-            ->scopeSeparator($properties['scopeSeparator']);
-
+        $originalProvider = parent::driver($driver);
+        return $this->interceptor
+            ? $this->interceptor->changeProvider($originalProvider, $driver)
+            : $originalProvider;
     }
 
+    public function setInterceptor(Interceptor $interceptor)
+    {
+        $this->interceptor = $interceptor;
+        return $this;
+    }
 }
