@@ -16,6 +16,10 @@ class LocalSocialiteServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../config/local-socialite.php' => $this->app->configPath('local-socialite.php'),
             ], 'config');
+            // publish assets
+            $this->publishes([
+                __DIR__.'/../resources/assets' => public_path('local_socialite'),
+              ], 'assets');
         }
         //views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'local_socialite');
