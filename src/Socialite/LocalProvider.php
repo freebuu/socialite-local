@@ -60,7 +60,8 @@ class LocalProvider extends AbstractProvider
 
     public function getAccessTokenResponse($code)
     {
-        $data = $this->getSubjectByCode($code)['request'];
+        $this->checkSubjectByCode($code);
+        $data = $this->subjectRepository->getRequest($code);
         return [
             'access_token' => $data['access_token'],
             'refresh_token' => $data['refresh_token'],
@@ -71,7 +72,8 @@ class LocalProvider extends AbstractProvider
 
     protected function getUserByToken($token)
     {
-        return $this->getSubjectByCode($token)['user'];
+        $this->checkSubjectByCode($token);
+        return $this->subjectRepository->getUser($token);
     }
 
     protected function mapUserToObject(array $user)
@@ -81,12 +83,11 @@ class LocalProvider extends AbstractProvider
             : $this->defaultUserMap($user);
     }
 
-    private function getSubjectByCode(string $code): array
+    private function checkSubjectByCode(string $code): void
     {
-        if(! $subject = $this->subjectRepository()->find($code)){
+        if(! $this->subjectRepository()->find($code)){
             throw new \RuntimeException('Cannot find subject with code ' . $code);
         }
-        return $subject;
     }
 
     private function defaultUserMap(array $user): User

@@ -26,7 +26,11 @@ class SubjectRepository
         //TODO original driver decorators
         //TODO pass original driver
         return $this->save([
-            'user' => $this->userArray($data),
+            'user' => [
+                'email' => $data['email'],
+                'id' => $data['id'] ?? null,
+                'name' => $data['name'] ?? null,
+            ],
             'request' => [
                 'scope' => $data['scope'] ?? '',
                 'refresh_token' => $data['refresh_token'] ?? Hash::make(Str::random(8)),
@@ -49,6 +53,36 @@ class SubjectRepository
         return $this->cache->get($this->getCacheKey($key));
     }
 
+    public function getRequest(string $key): ?array
+    {
+        $data = $this->find($key);
+        if(! $data){
+            return null;
+        }
+        return $data['request'];
+    }
+
+    public function getUser(string $key): ?array
+    {
+        $data = $this->find($key);
+        if(! $data){
+            return null;
+        }
+        $data = $data['user'];
+        return $this->userCallback
+            ? call_user_func($this->userCallback, $data)
+            : [
+                'id' => $data['id'] ?? random_int(1000, 10000),
+                'uuid' => $data['uuid'] ?? vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex(random_bytes(16)), 4)),
+                'email' => $email = $data['email'],
+                'username' => $data['username'] ?? $email,
+                'login' => $data['login'] ?? $email,
+                'name' => $data['name'] ?? mb_substr($email, 0, strpos($email, '@')) . '_name',
+                'avatar' => $data['avatar'] ?? null,
+                'avatar_url' => $data['avatar_url'] ?? null
+            ];
+    }
+
     private function getCacheKey(string $key): string
     {
         return self::PREFIX.':'.$key;
@@ -57,21 +91,5 @@ class SubjectRepository
     public function setUserCallback(Closure $closure)
     {
         $this->userCallback = $closure;
-    }
-
-    private function userArray(array $data): array
-    {
-        return $this->userCallback
-            ? call_user_func($this->userCallback, $data)
-            : [
-            'id' => $data['id'] ?? random_int(1000, 10000),
-            'uuid' => $data['uuid'] ?? vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex(random_bytes(16)), 4)),
-            'email' => $email = $data['email'],
-            'username' => $data['username'] ?? $email,
-            'login' => $data['username'] ?? $email,
-            'name' => $data['name'] ?? mb_substr($email, 0, strpos($email, '@')) . '_name',
-            'avatar' => null,
-            'avatar_url' => null
-        ];
     }
 }
