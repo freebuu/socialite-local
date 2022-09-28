@@ -199,8 +199,8 @@
                                 <input type="text" class="form-control" id="email" name="email" required>
                             </div>
                             <div class="login-form-item">
-                                <label for="sub" class="form-label">Sub</label>
-                                <input type="text" class="form-control" id="sub" name="sub">
+                                <label for="id" class="form-label">Id</label>
+                                <input type="text" class="form-control" id="id" name="id">
                             </div>
                             <div class="login-form-item">
                                 <label for="name" class="form-label">Name</label>
