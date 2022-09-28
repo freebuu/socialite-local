@@ -16,13 +16,13 @@ class LoginController
         $validator = Validator::make($request->query(), [
             'client_id' => 'required | string',
             'redirect_uri' => 'required | url',
-            'scope' => 'required | nullable |string',
+            'scope' => 'nullable |string',
             'response_type' => 'required | string',
             'state' => 'nullable | string',
             'original_driver' => 'nullable | string'
         ]);
         //TODO error page
-        if($validator->failed()){
+        if($validator->fails()){
             return Response::json($validator->errors());
         }
         return View::make('local_socialite::login', $validator->validated());
@@ -33,7 +33,7 @@ class LoginController
         //TODO error page
         $data = Validator::make($request->input(), [
             'email' => 'required | email',
-            'sub' => 'nullable | string',
+            'id' => 'nullable | string',
             'name' => 'nullable | string',
             'scope' => 'nullable | string',
             'redirect_uri' => 'required | url'
