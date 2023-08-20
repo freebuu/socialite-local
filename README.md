@@ -4,7 +4,7 @@ The library is used to simulate an OAuth server locally. All calls to the Social
 
 ## Installation
 - Require Socialite v4 or v5 and OAuth2 provider (OAuth1 providers not supported for now)
-- Use Composer to install: `composer require --dev kirbykot/socialite-local`
+- Use Composer to install: `composer require --dev freebuu/socialite-local`
 
 **:warning: WARNING: install this package only as dev dependency due to security reasons.**
 
@@ -24,7 +24,7 @@ If you need to imitate user structure from server - it can be achieved with `aft
 ```php
 public function register()
 {
-    $this->app->afterResolving('local_socialite.subject_repository', function ($r){
+    $this->app->afterResolving('socialite_local.subject_repository', function ($r){
         $r->setUserCallback(function ($data){
             //data is array coming from login form
             //return array with user info
@@ -40,4 +40,4 @@ public function register()
 }
 ```
 ### User mapper
-By default, library use original driver mapper - to map server answer to User model. You can disable this behavior by setting `LOCAL_SOCIALITE_USE_ORIGINAL_MAPPER` to false
+By default, library use original driver mapper - to map server answer to User model. You can disable this behavior by setting `SOCIALITE_LOCAL_USE_ORIGINAL_MAPPER` to false

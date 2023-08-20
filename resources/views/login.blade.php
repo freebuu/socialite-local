@@ -181,7 +181,7 @@
                 </div>
                 <div class="login-column center">
                     <h2>Login</h2>
-                    <form class="login-form" name="login-form" action="{{ \Illuminate\Support\Facades\URL::route('local_socialite.login') }}" method="post">
+                    <form class="login-form" name="login-form" action="{{ \Illuminate\Support\Facades\URL::route('socialite_local.login') }}" method="post">
                         <span class="login-text">@csrf</span>
                         <h3>Response</h3>
                         <div class="login-form-item">

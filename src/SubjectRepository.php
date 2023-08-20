@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirbykot\LocalSocialite;
+namespace FreeBuu\SocialiteLocal;
 
 use Closure;
 use Illuminate\Support\Facades\Hash;
@@ -10,7 +10,7 @@ use Illuminate\Cache\Repository as CacheRepository;
 
 class SubjectRepository
 {
-    public const PREFIX = 'local_socialite';
+    public const PREFIX = 'socialite_local';
     private CacheInterface $cache;
 
     private ?Closure $userCallback = null;

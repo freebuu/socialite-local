@@ -1,13 +1,13 @@
 <?php
 
-namespace Kirbykot\LocalSocialite\Controllers;
+namespace FreeBuu\SocialiteLocal\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use Kirbykot\LocalSocialite\SubjectRepository;
+use FreeBuu\SocialiteLocal\SubjectRepository;
 
 class LoginController
 {
@@ -25,7 +25,7 @@ class LoginController
         if($validator->fails()){
             return Response::json($validator->errors());
         }
-        return View::make('local_socialite::login', $validator->validated());
+        return View::make('socialite_local::login', $validator->validated());
     }
 
     public function login(Request $request, SubjectRepository $repository)

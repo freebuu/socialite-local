@@ -1,8 +1,8 @@
 <?php
 
-namespace Kirbykot\LocalSocialite;
+namespace FreeBuu\SocialiteLocal;
 
-use Kirbykot\LocalSocialite\Socialite\LocalProvider;
+use FreeBuu\SocialiteLocal\Socialite\LocalProvider;
 use Laravel\Socialite\Contracts\Provider;
 use ReflectionClass;
 

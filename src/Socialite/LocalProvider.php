@@ -1,10 +1,10 @@
 <?php
 
-namespace Kirbykot\LocalSocialite\Socialite;
+namespace FreeBuu\SocialiteLocal\Socialite;
 
 use Closure;
 use Illuminate\Support\Facades\URL;
-use Kirbykot\LocalSocialite\SubjectRepository;
+use FreeBuu\SocialiteLocal\SubjectRepository;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\User;
 
@@ -50,7 +50,7 @@ class LocalProvider extends AbstractProvider
 
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase(URL::route('local_socialite.show'), $state);
+        return $this->buildAuthUrlFromBase(URL::route('socialite_local.show'), $state);
     }
 
     protected function getTokenUrl()

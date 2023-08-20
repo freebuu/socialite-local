@@ -1,11 +1,10 @@
 {
-  "name": "kirbykot/socialite-local",
+  "name": "freebuu/socialite-local",
   "description": "Socialite provider for local development",
   "keywords": [
     "laravel",
     "laravel socialite",
     "oauth",
-    "provider",
     "socialite",
     "local develop"
   ],
@@ -19,19 +18,19 @@
   ],
   "require": {
     "php": "^7.4 || ^8.0",
-    "illuminate/support": "^6.0 || ^7.0 || ^8.0 || ^9.0",
-    "illuminate/cache": "^6.0 || ^7.0 || ^8.0 || ^9.0",
+    "illuminate/support": "^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10",
+    "illuminate/cache": "^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10",
     "laravel/socialite": "~4.0 || ~5.0"
   },
   "autoload": {
     "psr-4": {
-      "Kirbykot\\LocalSocialite\\": "src"
+      "FreeBuu\\SocialiteLocal\\": "src"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Kirbykot\\LocalSocialite\\LocalSocialiteServiceProvider"
+        "FreeBuu\\SocialiteLocal\\SocialiteLocalServiceProvider"
       ]
     }
   },

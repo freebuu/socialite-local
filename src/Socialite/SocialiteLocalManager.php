@@ -1,11 +1,11 @@
 <?php
 
-namespace Kirbykot\LocalSocialite\Socialite;
+namespace FreeBuu\SocialiteLocal\Socialite;
 
-use Kirbykot\LocalSocialite\Interceptor;
+use FreeBuu\SocialiteLocal\Interceptor;
 use Laravel\Socialite\SocialiteManager;
 
-class LocalSocialiteManager extends SocialiteManager
+class SocialiteLocalManager extends SocialiteManager
 {
     private ?Interceptor $interceptor;
 

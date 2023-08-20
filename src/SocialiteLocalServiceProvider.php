@@ -1,24 +1,24 @@
 <?php
 
-namespace Kirbykot\LocalSocialite;
+namespace FreeBuu\SocialiteLocal;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Kirbykot\LocalSocialite\Socialite\LocalSocialiteManager;
+use FreeBuu\SocialiteLocal\Socialite\SocialiteLocalManager;
 use Laravel\Socialite\Contracts\Factory;
 
-class LocalSocialiteServiceProvider extends ServiceProvider
+class SocialiteLocalServiceProvider extends ServiceProvider
 {
     public function boot()
     {
         //config
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/local-socialite.php' => $this->app->configPath('local-socialite.php'),
+                __DIR__.'/../config/socialite-local.php' => $this->app->configPath('socialite-local.php'),
             ], 'config');
         }
         //views
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'local_socialite');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'socialite_local');
         //routes
         Route::group($this->routeConfiguration(), function () {
             $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
@@ -27,17 +27,17 @@ class LocalSocialiteServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/local-socialite.php', 'local-socialite');
-        $this->app->alias(SubjectRepository::class, 'local_socialite.subject_repository');
+        $this->mergeConfigFrom(__DIR__.'/../config/socialite-local.php', 'socialite-local');
+        $this->app->alias(SubjectRepository::class, 'socialite_local.subject_repository');
         $this->app->singleton(Interceptor::class, function ($app){
             return new Interceptor(
-                $app->make('local_socialite.subject_repository'),
-                $app['config']['local-socialite']
+                $app->make('socialite_local.subject_repository'),
+                $app['config']['socialite-local']
             );
         });
         $this->app->extend(Factory::class, function ($factory, $app) {
             $interceptor = $app->make(Interceptor::class);
-            $factory = $app->make(LocalSocialiteManager::class);
+            $factory = $app->make(SocialiteLocalManager::class);
             $factory->setInterceptor($interceptor);
             return $factory;
         });
@@ -46,9 +46,9 @@ class LocalSocialiteServiceProvider extends ServiceProvider
     private function routeConfiguration(): array
     {
         return [
-            'prefix' => 'local_socialite',
-            'as' => 'local_socialite.',
-            'namespace' => 'Kirbykot\LocalSocialite\Controllers'
+            'prefix' => 'socialite-local',
+            'as' => 'socialite-local.',
+            'namespace' => 'FreeBuu\SocialiteLocal\Controllers'
         ];
     }
 }
