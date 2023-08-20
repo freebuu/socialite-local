@@ -46,8 +46,8 @@ class SocialiteLocalServiceProvider extends ServiceProvider
     private function routeConfiguration(): array
     {
         return [
-            'prefix' => 'socialite-local',
-            'as' => 'socialite-local.',
+            'prefix' => 'socialite_local',
+            'as' => 'socialite_local.',
             'namespace' => 'FreeBuu\SocialiteLocal\Controllers'
         ];
     }
