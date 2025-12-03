@@ -8,6 +8,8 @@ The library is used to simulate an OAuth server locally. All calls to the Social
 
 **:warning: WARNING: install this package only as dev dependency due to security reasons.**
 
+By default, the package is disabled in production (when `APP_ENV=production`). You can explicity control if the interceptor is enabled by setting `SOCIALITE_LOCAL_ENABLED=true` (or `false`) in your environment file.
+
 ## Usage
 Just use socialite as usual:
 ```php
