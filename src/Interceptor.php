@@ -22,7 +22,7 @@ class Interceptor
 
     public function changeProvider(Provider $originalProvider, $driver)
     {
-        if($this->config['enabled'] !== true){
+        if (app()->environment('production') || $this->config['enabled'] !== true){
             return $originalProvider;
         }
         //TODO work with oauth1 providers

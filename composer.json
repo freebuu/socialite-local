@@ -6,7 +6,8 @@
     "laravel socialite",
     "oauth",
     "socialite",
-    "local develop"
+    "local develop",
+    "dev"
   ],
   "license": "MIT",
   "authors": [
